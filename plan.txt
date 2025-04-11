@@ -1,0 +1,13 @@
+### Draft Plan for Enhancements
+
+1. **Payment Functionality**:
+   - Review and enhance the payment process in `checkout.php`.
+   - Ensure that payment status is updated correctly in the database.
+
+2. **Product Details**:
+   - Ensure that `product.php` displays all necessary product details, including images, descriptions, and related products.
+   - Verify that the product listing in `search.php` is functional.
+
+3. **User Registration/Login**:
+   - Review `login.php` and `register.php` for any necessary enhancements or bug fixes.
+   - Ensure that redirects to the login page are functioning correctly in `checkout.php`, `cart.php`, and other relevant files.
