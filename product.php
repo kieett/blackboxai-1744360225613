@@ -13,7 +13,7 @@ $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_to_cart') {
     $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
     addToCart($product_id, $quantity);
-    $message = 'Product added to cart successfully';
+    $message = $translations['add_to_cart']; // Use translation
 }
 
 try {
@@ -29,7 +29,7 @@ try {
     $product = $stmt->fetch();
 
     if (!$product) {
-        throw new Exception('Product not found');
+        throw new Exception($translations['product_not_found']); // Use translation
     }
 
     // Get related products from same category
@@ -46,11 +46,11 @@ try {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en'; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $product ? htmlspecialchars($product['name']) : 'Product Not Found'; ?> - Adidas Clone</title>
+    <title><?php echo $product ? htmlspecialchars($product['name']) : $translations['product_not_found']; ?> - Adidas Clone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -71,7 +71,7 @@ try {
                 </div>
                 <div class="flex items-center space-x-4">
                     <form action="search.php" method="GET" class="flex">
-                        <input type="text" name="q" placeholder="Search products..."
+                        <input type="text" name="q" placeholder="<?php echo $translations['search_placeholder']; ?>"
                                class="rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black text-gray-900">
                         <button type="submit" class="bg-white text-black px-4 py-2 rounded-r-md hover:bg-gray-100">
                             <i class="fas fa-search"></i>
@@ -170,19 +170,19 @@ try {
                                 </div>
                                 <button type="submit"
                                         class="w-full bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                                    Add to Cart
+                                    <?php echo $translations['add_to_cart']; ?>
                                 </button>
                             </form>
                         <?php else: ?>
                             <div class="bg-red-100 text-red-700 px-4 py-3 rounded mb-4">
-                                Out of Stock
+                                <?php echo $translations['out_of_stock']; ?>
                             </div>
                         <?php endif; ?>
 
                         <!-- Additional Info -->
                         <div class="border-t border-gray-200 pt-6">
                             <div class="flex items-center mb-4">
-                                <h2 class="text-lg font-semibold">Related Products</h2>
+                                <h2 class="text-lg font-semibold"><?php echo $translations['related_products']; ?></h2>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                 <?php foreach ($related_products as $related): ?>
@@ -211,7 +211,7 @@ try {
             </div>
         <?php else: ?>
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                Product not found.
+                <?php echo $translations['product_not_found']; ?>
             </div>
         <?php endif; ?>
     </div>
